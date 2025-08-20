@@ -1,0 +1,129 @@
+{
+    "Balance": "357,597",
+    "Damage": "1,127,700",
+    "Damage/h": "1,127,700",
+    "Healing": "104,093",
+    "Healing/h": "104,093",
+    "Killed Monsters": [
+        {
+            "Count": 351,
+            "Name": "minotaur cult follower"
+        },
+        {
+            "Count": 155,
+            "Name": "minotaur cult prophet"
+        },
+        {
+            "Count": 107,
+            "Name": "minotaur cult zealot"
+        }
+    ],
+    "Loot": "388,329",
+    "Looted Items": [
+        {
+            "Count": 21,
+            "Name": "a strong mana potion"
+        },
+        {
+            "Count": 28,
+            "Name": "a great mana potion"
+        },
+        {
+            "Count": 46,
+            "Name": "a great health potion"
+        },
+        {
+            "Count": 7,
+            "Name": "a small sapphire"
+        },
+        {
+            "Count": 21,
+            "Name": "a small ruby"
+        },
+        {
+            "Count": 27,
+            "Name": "a small emerald"
+        },
+        {
+            "Count": 34,
+            "Name": "a small amethyst"
+        },
+        {
+            "Count": 799,
+            "Name": "a platinum coin"
+        },
+        {
+            "Count": 3,
+            "Name": "a yellow gem"
+        },
+        {
+            "Count": 2,
+            "Name": "a red gem"
+        },
+        {
+            "Count": 13,
+            "Name": "a ring of healing"
+        },
+        {
+            "Count": 5,
+            "Name": "a warrior helmet"
+        },
+        {
+            "Count": 61,
+            "Name": "minotaur leather"
+        },
+        {
+            "Count": 5,
+            "Name": "a red piece of cloth"
+        },
+        {
+            "Count": 1,
+            "Name": "a minotaur trophy"
+        },
+        {
+            "Count": 40,
+            "Name": "a small topaz"
+        },
+        {
+            "Count": 5,
+            "Name": "a gold ingot"
+        },
+        {
+            "Count": 83,
+            "Name": "a cultish robe"
+        },
+        {
+            "Count": 132,
+            "Name": "a minotaur horn"
+        },
+        {
+            "Count": 23,
+            "Name": "a purple robe"
+        },
+        {
+            "Count": 6,
+            "Name": "a mino lance"
+        },
+        {
+            "Count": 40,
+            "Name": "a mino shield"
+        },
+        {
+            "Count": 100,
+            "Name": "a cowbell"
+        }
+    ],
+    "Raw XP Gain": "648,495",
+    "Raw XP/h": "868,027",
+    "Session end": "2025-08-14, 03:22:19",
+    "Session length": "00:38h",
+    "Session start": "2025-08-14, 02:43:52",
+    "Supplies": "30,732",
+    "XP Gain": "972,742",
+    "XP/h": "1,302,040",
+    "Vocation": "Knight",
+    "Mode": "Solo",
+    "Vocation duo": "none",
+    "Zona": "Mino Cult",
+    "Level": "351-400"
+}

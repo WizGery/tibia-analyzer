@@ -1,0 +1,132 @@
+/* === Estilo inspirado en el cliente de Tibia (completo) === */
+
+/* Fondo global: imagen grande uniforme (sin mosaico) */
+QWidget {
+    color: #E6E6E6;
+    font-family: "Verdana", "Tahoma", "Arial";
+    font-size: 12px;
+
+    /* Imagen de fondo (no repetir, sin grid) */
+    background-image: url("{{ASSETS}}/ui_bg_dark.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+    /* Color de respaldo si no carga la imagen */
+    background-color: #1c1c1c;
+}
+
+/* Ventana principal, diálogos: usan el fondo del QWidget */
+QMainWindow, QDialog {
+    background: transparent;
+}
+
+/* Labels */
+QLabel {
+    background: transparent;
+}
+
+/* Botones estilo panel Tibia */
+QPushButton {
+    background-color: #3a3a3a;
+    border: 2px outset #666;
+    padding: 6px 10px;
+    color: #f0f0f0;
+}
+QPushButton:hover {
+    background-color: #4a4a4a;
+}
+QPushButton:pressed {
+    border: 2px inset #555;
+    background-color: #2f2f2f;
+}
+QPushButton:disabled {
+    color: #9a9a9a;
+    background-color: #2b2b2b;
+    border: 2px solid #454545;
+}
+
+/* Combos y entradas */
+QComboBox, QLineEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox {
+    background-color: #2f2f2f;
+    color: #f0f0f0;
+    border: 1px solid #585858;
+    padding: 4px;
+    selection-background-color: #555d66;
+}
+QComboBox QAbstractItemView {
+    background-color: #2f2f2f;
+    color: #f0f0f0;
+    border: 1px solid #585858;
+}
+
+/* Checkboxes */
+QCheckBox {
+    spacing: 6px;
+}
+QCheckBox::indicator {
+    width: 14px; height: 14px;
+    border: 1px solid #777;
+    background: #222;
+}
+QCheckBox::indicator:checked {
+    image: none;
+    background: #4c7a4c;
+}
+
+/* Splitter */
+QSplitter::handle {
+    background-color: #202020;
+}
+
+/* Tabla central */
+QTableWidget {
+    background-color: #232323;
+    gridline-color: #3b3b3b;
+    border: 1px solid #5a5a5a;
+    alternate-background-color: #1e1e1e;
+}
+QTableWidget::item {
+    padding: 3px;
+}
+QTableWidget::item:selected {
+    background-color: #3a4857;
+    color: #ffffff;
+}
+
+/* Cabeceras de tabla */
+QHeaderView::section {
+    background-color: #3b3b3b;
+    color: #e6e6e6;
+    padding: 6px;
+    border: 1px solid #5a5a5a;
+}
+
+/* Scrollbars */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #2b2b2b;
+    border: 1px solid #505050;
+}
+QScrollBar::handle {
+    background: #444;
+    min-height: 20px;
+}
+QScrollBar::handle:hover {
+    background: #565656;
+}
+
+/* Mensajes */
+QMessageBox {
+    background: transparent;
+}
+
+/* Títulos dorados (aplícalo con setProperty('role','title') a labels concretos) */
+*[role="title"] {
+    color: #d9b65f;
+    font-weight: bold;
+}
+
+/* Colores tipo Hunt Analyzer (aplícalos con setProperty en celdas/labels) */
+*[role="positive"] { color: #33ff33; }
+*[role="negative"] { color: #ff4d4d; }
+*[role="neutral"]  { color: #ffd369; }
