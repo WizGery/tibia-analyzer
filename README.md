@@ -17,8 +17,21 @@
 
 ### 🚀 Instalación
 1. Descarga la última versión desde la pestaña **Releases** en GitHub.  
-2. Ejecuta el `.exe` standalone.  
+2. Ejecuta el `.exe` standalone (no requiere instalación).  
 3. ¡Listo para usar!  
+
+📌 **Requisitos**: Windows 10/11 (64-bit).  
+
+### ⚠️ Aviso sobre antivirus
+Algunos antivirus o Windows SmartScreen pueden marcar el `.exe` como malicioso debido a heurísticas de compresión.  
+👉 Esto es un **falso positivo**, muy común en aplicaciones empaquetadas con **PyInstaller** y sin firma digital.  
+
+- El binario **no utiliza UPX**.  
+- El código fuente está disponible en el repositorio para compilarlo localmente si lo prefieres.  
+
+Pasos recomendados si aparece SmartScreen:  
+1. Haz clic en “Más información”.  
+2. Selecciona “Ejecutar de todas formas”.  
 
 ### 📂 Estructura de carpetas
 - `app/` → Código principal.  
@@ -26,6 +39,12 @@
 - `dist/` → Builds generadas.  
 - `build/` → Archivos temporales.  
 - `JSON Ready/` → Carpeta donde se guardan los JSON limpios/listos para compartir.  
+
+### 🔧 Compilación manual
+Si quieres generar tu propio `.exe`:  
+```powershell
+pyinstaller --onefile --noconsole --icon=assets/icon.ico --name "TibiaAnalyzer" --paths=. --add-data "assets;assets" --add-data "app/ui;app/ui" app/main.py
+```
 
 ### 🤝 Contribuciones
 Las contribuciones son bienvenidas: reporta bugs, sugiere mejoras o envía *pull requests*.  
@@ -45,8 +64,21 @@ Las contribuciones son bienvenidas: reporta bugs, sugiere mejoras o envía *pull
 
 ### 🚀 Installation
 1. Download the latest release from the **Releases** tab on GitHub.  
-2. Run the standalone `.exe`.  
+2. Run the standalone `.exe` (no installation required).  
 3. Ready to go!  
+
+📌 **Requirements**: Windows 10/11 (64-bit).  
+
+### ⚠️ Antivirus warning
+Some antivirus engines or Windows SmartScreen may flag the `.exe` as suspicious due to heuristic scanning.  
+👉 This is a **false positive**, very common for binaries built with **PyInstaller** and without code signing.  
+
+- The binary is built **without UPX**.  
+- Source code is available so anyone can build it locally.  
+
+If SmartScreen appears:  
+1. Click “More info”.  
+2. Select “Run anyway”.  
 
 ### 📂 Folder structure
 - `app/` → Main code.  
@@ -54,6 +86,12 @@ Las contribuciones son bienvenidas: reporta bugs, sugiere mejoras o envía *pull
 - `dist/` → Generated builds.  
 - `build/` → Temporary files.  
 - `JSON Ready/` → Folder where clean/ready JSON files are stored for sharing.  
+
+### 🔧 Manual build
+If you want to create your own `.exe`:  
+```powershell
+pyinstaller --onefile --noconsole --icon=assets/icon.ico --name "TibiaAnalyzer" --paths=. --add-data "assets;assets" --add-data "app/ui;app/ui" app/main.py
+```
 
 ### 🤝 Contributing
 Contributions are welcome: report bugs, suggest improvements, or send pull requests.  
