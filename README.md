@@ -14,11 +14,10 @@
 - 🛠️ Panel de pendientes para revisar y completar metadatos.  
 - 🔍 Filtros inteligentes por vocación, modo y nivel.  
 - 🔄 Sincronización con biblioteca interna de la aplicación.  
-- 💾 Exportación a CSV para uso en hojas de cálculo.  
 
 ### 🚀 Instalación
 1. Descarga la última versión desde la pestaña **Releases** en GitHub.  
-2. Ejecuta el instalador o el `.exe` standalone.  
+2. Ejecuta el `.exe` standalone.  
 3. ¡Listo para usar!  
 
 ### 📂 Estructura de carpetas
@@ -43,11 +42,10 @@ Las contribuciones son bienvenidas: reporta bugs, sugiere mejoras o envía *pull
 - 🛠️ Pending panel to review and complete metadata.  
 - 🔍 Smart filters by vocation, mode, and level.  
 - 🔄 Synchronization with the app’s internal library.  
-- 💾 Export to CSV for spreadsheet usage.  
 
 ### 🚀 Installation
 1. Download the latest release from the **Releases** tab on GitHub.  
-2. Run the installer or the standalone `.exe`.  
+2. Run the standalone `.exe`.  
 3. Ready to go!  
 
 ### 📂 Folder structure
