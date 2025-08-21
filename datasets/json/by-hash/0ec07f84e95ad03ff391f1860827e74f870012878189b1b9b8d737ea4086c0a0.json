@@ -1,0 +1,66 @@
+{
+  "Balance": "254,230",
+  "Damage": "322,569",
+  "Damage/h": "322,569",
+  "Healing": "244",
+  "Healing/h": "244",
+  "Killed Monsters": [
+    {
+      "Count": 383,
+      "Name": "blood crab"
+    },
+    {
+      "Count": 510,
+      "Name": "thornback tortoise"
+    },
+    {
+      "Count": 309,
+      "Name": "tortoise"
+    }
+  ],
+  "Loot": "320,058",
+  "Looted Items": [
+    {
+      "Count": 9,
+      "Name": "a white pearl"
+    },
+    {
+      "Count": 6,
+      "Name": "a black pearl"
+    },
+    {
+      "Count": 1,
+      "Name": "a war hammer"
+    },
+    {
+      "Count": 5,
+      "Name": "a brown mushroom"
+    },
+    {
+      "Count": 6,
+      "Name": "a turtle shell"
+    },
+    {
+      "Count": 22,
+      "Name": "bloody pincers"
+    },
+    {
+      "Count": 65,
+      "Name": "a thorn"
+    }
+  ],
+  "Raw XP Gain": "165,806",
+  "Raw XP/h": "160,365",
+  "Session end": "2025-08-21, 04:44:46",
+  "Session length": "00:58h",
+  "Session start": "2025-08-21, 03:46:04",
+  "Supplies": "65,828",
+  "XP Gain": "248,708",
+  "XP/h": "240,547",
+  "Vocation": "Druid",
+  "Mode": "Solo",
+  "Vocation duo": "none",
+  "Zona": "Laguna Blood Crabs",
+  "Level": "51-75",
+  "Ignore Duo Balance": "false"
+}
