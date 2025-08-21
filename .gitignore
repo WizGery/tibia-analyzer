@@ -29,3 +29,6 @@ Thumbs.db
 
 # Archivos de usuario
 *.exe
+/tools
+export_ready_json.py
+dev_dump.py
