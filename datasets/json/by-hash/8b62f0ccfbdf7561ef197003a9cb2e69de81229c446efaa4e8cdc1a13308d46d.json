@@ -1,0 +1,138 @@
+{
+  "Balance": "325,810",
+  "Damage": "1,692,979",
+  "Damage/h": "1,692,979",
+  "Healing": "345,364",
+  "Healing/h": "345,364",
+  "Killed Monsters": [
+    {
+      "Count": 233,
+      "Name": "werelion"
+    },
+    {
+      "Count": 275,
+      "Name": "werelioness"
+    },
+    {
+      "Count": 77,
+      "Name": "white lion"
+    }
+  ],
+  "Loot": "427,780",
+  "Looted Items": [
+    {
+      "Count": 59,
+      "Name": "a small enchanted sapphire"
+    },
+    {
+      "Count": 31,
+      "Name": "a small enchanted ruby"
+    },
+    {
+      "Count": 14,
+      "Name": "terra boots"
+    },
+    {
+      "Count": 1,
+      "Name": "magma legs"
+    },
+    {
+      "Count": 9,
+      "Name": "a lightning headband"
+    },
+    {
+      "Count": 6,
+      "Name": "a white pearl"
+    },
+    {
+      "Count": 16,
+      "Name": "a black pearl"
+    },
+    {
+      "Count": 7,
+      "Name": "a small diamond"
+    },
+    {
+      "Count": 1594,
+      "Name": "a platinum coin"
+    },
+    {
+      "Count": 3,
+      "Name": "a yellow gem"
+    },
+    {
+      "Count": 31,
+      "Name": "an ankh"
+    },
+    {
+      "Count": 1,
+      "Name": "a crown helmet"
+    },
+    {
+      "Count": 1,
+      "Name": "a titan axe"
+    },
+    {
+      "Count": 5,
+      "Name": "a spiked squelcher"
+    },
+    {
+      "Count": 2,
+      "Name": "a glorious axe"
+    },
+    {
+      "Count": 3,
+      "Name": "a noble axe"
+    },
+    {
+      "Count": 76,
+      "Name": "a lion's mane"
+    },
+    {
+      "Count": 4,
+      "Name": "a green crystal shard"
+    },
+    {
+      "Count": 4,
+      "Name": "a cyan crystal fragment"
+    },
+    {
+      "Count": 8,
+      "Name": "an onyx chip"
+    },
+    {
+      "Count": 2,
+      "Name": "a coral brooch"
+    },
+    {
+      "Count": 12,
+      "Name": "a rainbow quartz"
+    },
+    {
+      "Count": 2,
+      "Name": "a lion figurine"
+    },
+    {
+      "Count": 14,
+      "Name": "an ivory carving"
+    },
+    {
+      "Count": 2,
+      "Name": "a white silk flower"
+    }
+  ],
+  "Raw XP Gain": "1,323,810",
+  "Raw XP/h": "2,182,368",
+  "Session end": "2025-08-18, 09:25:03",
+  "Session length": "00:34h",
+  "Session start": "2025-08-18, 08:50:58",
+  "Supplies": "101,970",
+  "XP Gain": "1,882,815",
+  "XP/h": "2,605,042",
+  "Vocation": "Druid",
+  "Mode": "Solo",
+  "Vocation duo": "none",
+  "Zona": "Werelions",
+  "Level": "401-450",
+  "Ignore Duo Balance": "false"
+}

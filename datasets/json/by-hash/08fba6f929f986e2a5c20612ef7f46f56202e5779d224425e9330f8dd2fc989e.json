@@ -1,0 +1,130 @@
+{
+  "Balance": "20,769",
+  "Damage": "762,370",
+  "Damage/h": "762,370",
+  "Healing": "313,058",
+  "Healing/h": "313,058",
+  "Killed Monsters": [
+    {
+      "Count": 50,
+      "Name": "dawnfire asura"
+    },
+    {
+      "Count": 33,
+      "Name": "frost flower asura"
+    },
+    {
+      "Count": 65,
+      "Name": "hellspawn"
+    },
+    {
+      "Count": 77,
+      "Name": "midnight asura"
+    }
+  ],
+  "Loot": "125,221",
+  "Looted Items": [
+    {
+      "Count": 16,
+      "Name": "a white pearl"
+    },
+    {
+      "Count": 1,
+      "Name": "a black pearl"
+    },
+    {
+      "Count": 16,
+      "Name": "a small diamond"
+    },
+    {
+      "Count": 28,
+      "Name": "a small sapphire"
+    },
+    {
+      "Count": 4,
+      "Name": "a small ruby"
+    },
+    {
+      "Count": 11,
+      "Name": "a small emerald"
+    },
+    {
+      "Count": 413,
+      "Name": "a platinum coin"
+    },
+    {
+      "Count": 2,
+      "Name": "a yellow gem"
+    },
+    {
+      "Count": 1,
+      "Name": "a hailstorm rod"
+    },
+    {
+      "Count": 1,
+      "Name": "a necrotic rod"
+    },
+    {
+      "Count": 1,
+      "Name": "a blue robe"
+    },
+    {
+      "Count": 3,
+      "Name": "a red mushroom"
+    },
+    {
+      "Count": 20,
+      "Name": "a soul orb"
+    },
+    {
+      "Count": 23,
+      "Name": "demonic essence"
+    },
+    {
+      "Count": 31,
+      "Name": "a flask of demonic blood"
+    },
+    {
+      "Count": 1,
+      "Name": "a berserk potion"
+    },
+    {
+      "Count": 7,
+      "Name": "an ultimate health potion"
+    },
+    {
+      "Count": 1,
+      "Name": "a focus cape"
+    },
+    {
+      "Count": 8,
+      "Name": "a small topaz"
+    },
+    {
+      "Count": 10,
+      "Name": "a hellspawn tail"
+    },
+    {
+      "Count": 17,
+      "Name": "a golden lotus brooch"
+    },
+    {
+      "Count": 15,
+      "Name": "a peacock feather fan"
+    }
+  ],
+  "Raw XP Gain": "767,643",
+  "Raw XP/h": "2,029,768",
+  "Session end": "2025-08-15, 02:31:06",
+  "Session length": "00:22h",
+  "Session start": "2025-08-15, 02:08:32",
+  "Supplies": "104,452",
+  "XP Gain": "767,643",
+  "XP/h": "2,029,768",
+  "Vocation": "Knight",
+  "Mode": "Solo",
+  "Vocation duo": "none",
+  "Zona": "Asuras Palace",
+  "Level": "351-400",
+  "Ignore Duo Balance": "false"
+}
