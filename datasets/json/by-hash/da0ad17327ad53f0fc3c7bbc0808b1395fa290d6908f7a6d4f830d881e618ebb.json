@@ -1,0 +1,182 @@
+{
+  "Balance": "343,870",
+  "Damage": "1,337,615",
+  "Damage/h": "1,337,615",
+  "Healing": "289,288",
+  "Healing/h": "289,288",
+  "Killed Monsters": [
+    {
+      "Count": 182,
+      "Name": "lumbering carnivor"
+    },
+    {
+      "Count": 67,
+      "Name": "menacing carnivor"
+    },
+    {
+      "Count": 226,
+      "Name": "spiky carnivor"
+    }
+  ],
+  "Loot": "413,462",
+  "Looted Items": [
+    {
+      "Count": 5,
+      "Name": "a giant shimmering pearl"
+    },
+    {
+      "Count": 3,
+      "Name": "a small enchanted ruby"
+    },
+    {
+      "Count": 1,
+      "Name": "a terra mantle"
+    },
+    {
+      "Count": 2,
+      "Name": "terra legs"
+    },
+    {
+      "Count": 3,
+      "Name": "a terra amulet"
+    },
+    {
+      "Count": 2,
+      "Name": "a glacier amulet"
+    },
+    {
+      "Count": 1,
+      "Name": "a lightning pendant"
+    },
+    {
+      "Count": 4,
+      "Name": "a small ruby"
+    },
+    {
+      "Count": 2,
+      "Name": "a talon"
+    },
+    {
+      "Count": 982,
+      "Name": "a platinum coin"
+    },
+    {
+      "Count": 4,
+      "Name": "a violet gem"
+    },
+    {
+      "Count": 6,
+      "Name": "a green gem"
+    },
+    {
+      "Count": 3,
+      "Name": "a terra rod"
+    },
+    {
+      "Count": 13,
+      "Name": "an ice rapier"
+    },
+    {
+      "Count": 2,
+      "Name": "a heavy machete"
+    },
+    {
+      "Count": 2,
+      "Name": "a warrior helmet"
+    },
+    {
+      "Count": 2,
+      "Name": "knight legs"
+    },
+    {
+      "Count": 13,
+      "Name": "a guardian shield"
+    },
+    {
+      "Count": 4,
+      "Name": "a blue robe"
+    },
+    {
+      "Count": 1,
+      "Name": "a glorious axe"
+    },
+    {
+      "Count": 1,
+      "Name": "a wand of voodoo"
+    },
+    {
+      "Count": 3,
+      "Name": "a shockwave amulet"
+    },
+    {
+      "Count": 2,
+      "Name": "a green crystal shard"
+    },
+    {
+      "Count": 17,
+      "Name": "a brown crystal splinter"
+    },
+    {
+      "Count": 15,
+      "Name": "a blue crystal splinter"
+    },
+    {
+      "Count": 3,
+      "Name": "a green crystal fragment"
+    },
+    {
+      "Count": 1,
+      "Name": "a buckle"
+    },
+    {
+      "Count": 3,
+      "Name": "a fur armor"
+    },
+    {
+      "Count": 3,
+      "Name": "an onyx chip"
+    },
+    {
+      "Count": 3,
+      "Name": "an ultimate mana potion"
+    },
+    {
+      "Count": 1,
+      "Name": "a tiger eye"
+    },
+    {
+      "Count": 4,
+      "Name": "a prismatic quartz"
+    },
+    {
+      "Count": 11,
+      "Name": "a rainbow quartz"
+    },
+    {
+      "Count": 85,
+      "Name": "a blue glass plate"
+    },
+    {
+      "Count": 35,
+      "Name": "a green glass plate"
+    },
+    {
+      "Count": 1,
+      "Name": "a violet glass plate"
+    }
+  ],
+  "Raw XP Gain": "775,962",
+  "Raw XP/h": "1,489,083",
+  "Session end": "2025-08-17, 22:31:22",
+  "Session length": "00:32h",
+  "Session start": "2025-08-17, 21:59:15",
+  "Supplies": "69,592",
+  "XP Gain": "775,962",
+  "XP/h": "1,489,083",
+  "Vocation": "Druid",
+  "Mode": "Solo",
+  "Vocation duo": "none",
+  "Zona": "Carnivors",
+  "Level": "401-450",
+  "Ignore Duo Balance": "false"
+}
