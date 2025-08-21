@@ -1,0 +1,11 @@
+# Fuerza LF en texto
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.qss text eol=lf
+
+# Tratamiento binario
+*.png binary
+*.ico binary
+*.ttf binary
