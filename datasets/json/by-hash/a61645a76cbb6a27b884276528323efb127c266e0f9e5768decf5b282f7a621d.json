@@ -1,0 +1,105 @@
+{
+    "Balance": "342,959",
+    "Damage": "2,525,590",
+    "Damage/h": "2,519,405",
+    "Healing": "518,177",
+    "Healing/h": "514,745",
+    "Killed Monsters": [
+        {
+            "Count": 667,
+            "Name": "werehyaena"
+        },
+        {
+            "Count": 287,
+            "Name": "werehyaena shaman"
+        }
+    ],
+    "Loot": "671,760",
+    "Looted Items": [
+        {
+            "Count": 57,
+            "Name": "a great mana potion"
+        },
+        {
+            "Count": 43,
+            "Name": "a small enchanted emerald"
+        },
+        {
+            "Count": 150,
+            "Name": "a small enchanted amethyst"
+        },
+        {
+            "Count": 32,
+            "Name": "a small amethyst"
+        },
+        {
+            "Count": 1914,
+            "Name": "a platinum coin"
+        },
+        {
+            "Count": 33,
+            "Name": "a yellow gem"
+        },
+        {
+            "Count": 41,
+            "Name": "a red gem"
+        },
+        {
+            "Count": 16,
+            "Name": "a hailstorm rod"
+        },
+        {
+            "Count": 11,
+            "Name": "a sword ring"
+        },
+        {
+            "Count": 18,
+            "Name": "a wand of starstorm"
+        },
+        {
+            "Count": 11,
+            "Name": "a wand of voodoo"
+        },
+        {
+            "Count": 32,
+            "Name": "a green crystal splinter"
+        },
+        {
+            "Count": 7,
+            "Name": "a brown crystal splinter"
+        },
+        {
+            "Count": 92,
+            "Name": "a red crystal fragment"
+        },
+        {
+            "Count": 27,
+            "Name": "a green crystal fragment"
+        },
+        {
+            "Count": 128,
+            "Name": "a werehyaena nose"
+        },
+        {
+            "Count": 4,
+            "Name": "a werehyaena talisman"
+        },
+        {
+            "Count": 4,
+            "Name": "a werehyaena trophy"
+        }
+    ],
+    "Raw XP Gain": "2,100,775",
+    "Raw XP/h": "2,092,809",
+    "Session end": "2025-08-16, 14:11:47",
+    "Session length": "01:00h",
+    "Session start": "2025-08-16, 13:11:25",
+    "Supplies": "328,801",
+    "XP Gain": "3,151,162",
+    "XP/h": "3,139,214",
+    "Vocation": "Paladin",
+    "Mode": "Solo",
+    "Vocation duo": "none",
+    "Zona": "Werehyenas",
+    "Level": "251-300"
+}

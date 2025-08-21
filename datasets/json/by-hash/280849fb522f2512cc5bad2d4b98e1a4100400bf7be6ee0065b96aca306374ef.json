@@ -1,0 +1,79 @@
+{
+    "Balance": "89,582",
+    "Damage": "120,727",
+    "Damage/h": "120,727",
+    "Healing": "972",
+    "Healing/h": "972",
+    "Killed Monsters": [
+        {
+            "Count": 2,
+            "Name": "azure frog"
+        },
+        {
+            "Count": 132,
+            "Name": "blood crab"
+        },
+        {
+            "Count": 1,
+            "Name": "coral frog"
+        },
+        {
+            "Count": 1,
+            "Name": "crab"
+        },
+        {
+            "Count": 1,
+            "Name": "crimson frog"
+        },
+        {
+            "Count": 2,
+            "Name": "orchid frog"
+        },
+        {
+            "Count": 178,
+            "Name": "thornback tortoise"
+        },
+        {
+            "Count": 13,
+            "Name": "toad"
+        },
+        {
+            "Count": 143,
+            "Name": "tortoise"
+        }
+    ],
+    "Loot": "117,740",
+    "Looted Items": [
+        {
+            "Count": 1,
+            "Name": "a white pearl"
+        },
+        {
+            "Count": 4,
+            "Name": "a turtle shell"
+        },
+        {
+            "Count": 6,
+            "Name": "bloody pincers"
+        },
+        {
+            "Count": 1,
+            "Name": "poisonous slime"
+        },
+        {
+            "Count": 18,
+            "Name": "a thorn"
+        }
+    ],
+    "Session end": "2025-08-18, 03:17:54",
+    "Session length": "00:26h",
+    "Session start": "2025-08-18, 02:51:19",
+    "Supplies": "28,158",
+    "XP Gain": "122,110",
+    "XP/h": "259,425",
+    "Vocation": "Druid",
+    "Mode": "Solo",
+    "Vocation duo": "none",
+    "Zona": "Laguna Blood Crabs",
+    "Level": "26-50"
+}

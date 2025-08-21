@@ -1,0 +1,141 @@
+{
+    "Balance": "439,690",
+    "Damage": "2,147,138",
+    "Damage/h": "2,147,138",
+    "Healing": "416,086",
+    "Healing/h": "416,086",
+    "Killed Monsters": [
+        {
+            "Count": 299,
+            "Name": "werelion"
+        },
+        {
+            "Count": 345,
+            "Name": "werelioness"
+        },
+        {
+            "Count": 99,
+            "Name": "white lion"
+        }
+    ],
+    "Loot": "591,490",
+    "Looted Items": [
+        {
+            "Count": 87,
+            "Name": "a small enchanted sapphire"
+        },
+        {
+            "Count": 53,
+            "Name": "a small enchanted ruby"
+        },
+        {
+            "Count": 19,
+            "Name": "terra boots"
+        },
+        {
+            "Count": 4,
+            "Name": "magma legs"
+        },
+        {
+            "Count": 6,
+            "Name": "a lightning headband"
+        },
+        {
+            "Count": 13,
+            "Name": "a white pearl"
+        },
+        {
+            "Count": 27,
+            "Name": "a black pearl"
+        },
+        {
+            "Count": 10,
+            "Name": "a small diamond"
+        },
+        {
+            "Count": 2015,
+            "Name": "a platinum coin"
+        },
+        {
+            "Count": 3,
+            "Name": "a yellow gem"
+        },
+        {
+            "Count": 25,
+            "Name": "an ankh"
+        },
+        {
+            "Count": 1,
+            "Name": "a crown helmet"
+        },
+        {
+            "Count": 4,
+            "Name": "a titan axe"
+        },
+        {
+            "Count": 2,
+            "Name": "a spiked squelcher"
+        },
+        {
+            "Count": 9,
+            "Name": "a glorious axe"
+        },
+        {
+            "Count": 3,
+            "Name": "a noble axe"
+        },
+        {
+            "Count": 108,
+            "Name": "a lion's mane"
+        },
+        {
+            "Count": 5,
+            "Name": "a green crystal shard"
+        },
+        {
+            "Count": 4,
+            "Name": "a cyan crystal fragment"
+        },
+        {
+            "Count": 3,
+            "Name": "a green crystal fragment"
+        },
+        {
+            "Count": 4,
+            "Name": "an onyx chip"
+        },
+        {
+            "Count": 4,
+            "Name": "a coral brooch"
+        },
+        {
+            "Count": 7,
+            "Name": "a rainbow quartz"
+        },
+        {
+            "Count": 4,
+            "Name": "a lion figurine"
+        },
+        {
+            "Count": 22,
+            "Name": "an ivory carving"
+        },
+        {
+            "Count": 3,
+            "Name": "a white silk flower"
+        }
+    ],
+    "Raw XP Gain": "1,680,100",
+    "Raw XP/h": "1,956,052",
+    "Session end": "2025-08-17, 19:32:21",
+    "Session length": "00:48h",
+    "Session start": "2025-08-17, 18:43:27",
+    "Supplies": "151,800",
+    "XP Gain": "2,520,150",
+    "XP/h": "2,934,078",
+    "Vocation": "Druid",
+    "Mode": "Solo",
+    "Vocation duo": "none",
+    "Zona": "Werelions",
+    "Level": "401-450"
+}
