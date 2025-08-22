@@ -9,7 +9,7 @@ from typing import List, Dict, Optional
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QTableWidget, QTableWidgetItem, QWidget, QComboBox,
     QPushButton, QHBoxLayout, QMessageBox, QLabel, QPlainTextEdit, QAbstractItemView,
-    QCheckBox
+    QCheckBox, QHeaderView
 )
 from PySide6.QtCore import Qt, Slot
 
@@ -19,6 +19,7 @@ from app.services.pending_service import (
 from app.data.writer import write_meta_to_json
 from app.services import profiles as profiles_service
 from app.services import i18n
+from app.services.i18n import tr
 from app.services import config
 from app.services import ui_prefs  # ← mixin para persistir tamaño
 
@@ -44,21 +45,26 @@ def _extract_centered_child(cell: QWidget) -> Optional[QWidget]:
 
 
 # ------------------------- Diálogo: lista completa de Monsters -------------------------
-class MonstersDialog(QDialog):
+class MonstersDialog(ui_prefs.PersistentSizeMixin, QDialog):
     def __init__(self, parent: QWidget | None, json_path: str):
         super().__init__(parent)
         self.setWindowTitle(i18n.tr("monsters.title"))
-        self.resize(520, 540)
+        # Persistencia de tamaño
+        cfg = config.load_config() if hasattr(config, "load_config") else {}
+        self.init_persistent_size(cfg, key="monsters_dialog", default=(520, 540))
 
         layout = QVBoxLayout(self)
         title = QLabel(os.path.basename(json_path))
         title.setStyleSheet("font-weight: bold;")
         layout.addWidget(title)
 
-        from PySide6.QtWidgets import QTableWidget
         self.table = QTableWidget(0, 2)
         self.table.setHorizontalHeaderLabels([i18n.tr("monsters.col.name"), i18n.tr("monsters.col.count")])
-        self.table.horizontalHeader().setStretchLastSection(True)
+        # Ajuste de columnas al contenido
+        header = self.table.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        header.setStretchLastSection(False)
+        self.table.setWordWrap(False)
         layout.addWidget(self.table)
 
         btn_close = QPushButton(i18n.tr("monsters.btn.close"))
@@ -89,13 +95,19 @@ class MonstersDialog(QDialog):
             self.table.setItem(row, 0, it_name)
             self.table.setItem(row, 1, it_cnt)
 
+        # Recalcular por si el contenido se añadió después del modo
+        self.table.resizeColumnsToContents()
+
 
 # ------------------------- Diálogo: cálculo de Balance (Duo) -------------------------
-class DuoBalanceDialog(QDialog):
+class DuoBalanceDialog(ui_prefs.PersistentSizeMixin, QDialog):
     def __init__(self, parent: QWidget | None, json_path: str):
         super().__init__(parent)
         self.setWindowTitle(i18n.tr("pending.calc_balance"))
-        self.resize(600, 460)
+        # Persistencia de tamaño
+        cfg = config.load_config() if hasattr(config, "load_config") else {}
+        self.init_persistent_size(cfg, key="duo_balance_dialog", default=(600, 460))
+
         self.json_path = json_path
 
         layout = QVBoxLayout(self)
@@ -429,13 +441,17 @@ class PendingDialog(ui_prefs.PersistentSizeMixin, QDialog):
 
         voc = p.get("vocation", "")
         lvl = p.get("level", "")
-        ok = QMessageBox.question(
-            self,
-            i18n.tr("pending.msg.profile.apply.title"),
-            i18n.tr("pending.msg.profile.apply.body", voc=voc, lvl=lvl),
-            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
-        )
-        if ok != QMessageBox.Yes:
+
+        # Forzar texto de botones Sí/No (localizados)
+        msg = QMessageBox(QMessageBox.Question,
+                          i18n.tr("pending.msg.profile.apply.title"),
+                          i18n.tr("pending.msg.profile.apply.body", voc=voc, lvl=lvl),
+                          parent=self)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg.button(QMessageBox.Yes).setText(i18n.tr("action.yes"))
+        msg.button(QMessageBox.No).setText(i18n.tr("action.no"))
+        res = msg.exec()
+        if res != QMessageBox.Yes:
             return
 
         for r in range(self.table.rowCount()):
@@ -490,5 +506,3 @@ class PendingDialog(ui_prefs.PersistentSizeMixin, QDialog):
         else:
             QMessageBox.information(self, i18n.tr("pending.save"), i18n.tr("pending.msg.saved_ok", n=ok_count))
         self.accept()
-
-
