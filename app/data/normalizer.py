@@ -73,7 +73,6 @@ def normalize_json(path: str, data: dict) -> HuntRecord:
     has_all_meta = True
     allowed_vocations = {v.value for v in Vocation}
     allowed_modes = {m.value for m in Mode}
-    from .normalizer import LEVEL_BUCKETS  # si ya está arriba, omite esta línea
     allowed_levels = set(LEVEL_BUCKETS)
 
     if not vocation or vocation not in allowed_vocations:
