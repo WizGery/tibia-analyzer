@@ -7,7 +7,7 @@ QWidget {
     font-size: 12px;
 
     /* Imagen de fondo (no repetir, sin grid) */
-    background-image: url("{{ASSETS}}/ui_bg_dark.png");
+    background-image: url("{{ASSETS}}/backgrounds/ui_bg_dark.png");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -130,3 +130,28 @@ QMessageBox {
 *[role="positive"] { color: #33ff33; }
 *[role="negative"] { color: #ff4d4d; }
 *[role="neutral"]  { color: #ffd369; }
+
+/* --- Botones cuadrados genéricos ---
+   Actívalos en código con:  btn.setProperty("square", true)
+   No interfiere con otros QPushButton sin esa propiedad.
+*/
+QPushButton[square="true"] {
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    background-color: #242424;
+    padding: 0px;
+    min-width: 34px;
+    min-height: 34px;
+    max-width: 34px;
+    max-height: 34px;
+}
+
+QPushButton[square="true"]:hover {
+    background-color: #2e2e2e;
+    border-color: #565656;
+}
+
+QPushButton[square="true"]:pressed {
+    background-color: #1e1e1e;
+    border-color: #6a6a6a;
+}

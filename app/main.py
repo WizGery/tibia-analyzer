@@ -2,37 +2,16 @@ import sys
 import os
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFontDatabase
-
-# Cargamos la ventana principal y la config tal como están en tu proyecto
+from app.services.paths import asset_path
 from app.services.config import load_config
 from app.ui.main_window import MainWindow
 
 
-def _base_dir() -> str:
-    """
-    Devuelve la carpeta base del bundle:
-    - En desarrollo: .../app/..
-    - En .exe (PyInstaller): sys._MEIPASS
-    """
-    if getattr(sys, "_MEIPASS", None):
-        return sys._MEIPASS  # type: ignore[attr-defined]
-    # /app/main.py -> base es un nivel arriba
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
-
-def _res_path(*parts: str) -> str:
-    """Ruta absoluta robusta para assets y qss."""
-    return os.path.abspath(os.path.join(_base_dir(), *parts))
-
-
 def _load_fonts():
-    """
-    Intenta registrar verdana.ttf (para mantener el look del cliente).
-    Si no está, no pasa nada: PySide usará la fuente del sistema.
-    """
-    verdana = _res_path("assets", "verdana.ttf")
-    if os.path.exists(verdana):
-        ok_id = QFontDatabase.addApplicationFont(verdana)
+    """Intenta registrar Verdana (opcional)."""
+    verdana = asset_path("assets", "fonts", "verdana.ttf")
+    if verdana.exists():
+        ok_id = QFontDatabase.addApplicationFont(str(verdana))
         if ok_id == -1:
             print(f"[STYLE] No se pudo registrar la fuente: {verdana}")
         else:
@@ -42,32 +21,28 @@ def _load_fonts():
 
 
 def _load_qss(app: QApplication):
-    candidates = [
-        _res_path("app", "ui", "style.qss"),
-        _res_path("assets", "style.qss"),
-        _res_path("style.qss"),
-    ]
-    qss_path = next((p for p in candidates if os.path.exists(p)), "")
-    if not qss_path:
-        # En modo frozen, deja rastro visible
-        if getattr(sys, "frozen", False):
-            from PySide6.QtWidgets import QMessageBox
-            QMessageBox.information(None, "Tema", "style.qss no encontrado (se ejecutará sin tema).")
+    """
+    Lee assets/style.qss y sustituye {{ASSETS}} por la ruta absoluta a /assets
+    para que las imágenes (backgrounds, iconos) funcionen también en .exe.
+    """
+    qss_path = asset_path("assets", "style.qss")
+    if not qss_path.exists():
+        print("[STYLE] style.qss no encontrado en assets/ (se ejecutará sin tema).")
         return
 
     try:
         with open(qss_path, "r", encoding="utf-8") as f:
             qss = f.read()
     except Exception as e:
-        if getattr(sys, "frozen", False):
-            from PySide6.QtWidgets import QMessageBox
-            QMessageBox.warning(None, "Tema", f"Error leyendo QSS: {e}")
+        print(f"[STYLE] Error leyendo QSS: {e}")
         return
 
-    assets_dir = _res_path("assets").replace("\\", "/")
+    assets_dir = asset_path("assets").as_posix()
     qss = qss.replace("{{ASSETS}}", assets_dir)
-    app.setStyleSheet(qss)
 
+    app.setStyleSheet(qss)
+    print(f"[STYLE] QSS cargado desde: {qss_path}")
+    print(f"[STYLE] Assets dir: {assets_dir}")
 
 
 def main():

@@ -1,12 +1,14 @@
 import os
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QPushButton,
-    QLabel, QFileDialog, QHBoxLayout, QSplitter, QMessageBox, QComboBox
+    QLabel, QHBoxLayout, QSplitter, QMessageBox
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QIcon
 
-from app.services import config
-from app.services import i18n
+from app.services.paths import asset_path, library_dir
+from app.services import config, i18n
+from app.services import ui_prefs
 from app.services.library_sync import import_from_source
 from app.data.loader import load_hunts_from_library
 from app.services.pending_service import find_pending
@@ -14,10 +16,12 @@ from app.ui.pending_panel import PendingDialog
 from app.ui.filters_panel import FiltersPanel
 from app.ui.zones_table import ZonesTable
 from app.services.aggregator import aggregate_by_zone
-from app.services.paths import library_dir
 from app.ui.profiles_dialog import ProfilesDialog
+from app.ui.settings_panel import SettingsDialog
+from app.ui.tools_panel import ToolsDialog
 
-class MainWindow(QMainWindow):
+
+class MainWindow(ui_prefs.PersistentSizeMixin, QMainWindow):
     def __init__(self, cfg: dict):
         super().__init__()
 
@@ -30,12 +34,21 @@ class MainWindow(QMainWindow):
         self._default_voc = "Knight"
         self._default_mode = "Solo"
 
+        # Inicializa el mixin (tamaño general recordado)
+        self.init_persistent_size(self.config, key="main_window_last", default=(1120, 720))
+
         self._build_ui()
         self.load_data()
 
+        # cargar tamaño según modo (basic / hilo)
+        hilo = self.filters.show_hi_lo()
+        if hilo:
+            ui_prefs.load_size(self, "main_window_hilo", default=(1320, 760))
+        else:
+            ui_prefs.load_size(self, "main_window_basic", default=(1120, 720))
+
     def _build_ui(self):
         self.setWindowTitle(i18n.tr("app.title"))
-        # tamaño inicial gestionado por presets (ver _ensure_window_sizes_defaults / _apply_window_size_for_mode)
 
         central = QWidget()
         self.setCentralWidget(central)
@@ -44,47 +57,67 @@ class MainWindow(QMainWindow):
         # Barra superior
         top = QHBoxLayout()
 
-        # Idioma
-        self.lbl_language = QLabel(i18n.tr("language"))
-        self.cb_language = QComboBox()
-        self.cb_language.addItem(i18n.tr("language.es"), userData="es")
-        self.cb_language.addItem(i18n.tr("language.en"), userData="en")
-        self.cb_language.setCurrentIndex(0 if i18n.get_language() == "es" else 1)
-        self.cb_language.currentIndexChanged.connect(self.on_language_changed)
-        top.addWidget(self.lbl_language)
-        top.addWidget(self.cb_language)
+        # --- Botón Ajustes ---
+        self.btn_settings = QPushButton()
+        gear_png = asset_path("assets", "icons", "settings_gear.png")
+        icon_fallback = asset_path("assets", "icons", "icon.ico")
+        if gear_png.exists():
+            self.btn_settings.setIcon(QIcon(str(gear_png)))
+        elif icon_fallback.exists():
+            self.btn_settings.setIcon(QIcon(str(icon_fallback)))
 
-        # Origen + sincronizar (sin mostrar ruta de biblioteca)
-        self.btn_choose_source = QPushButton(i18n.tr("source.choose"))
-        self.btn_choose_source.clicked.connect(self.choose_source)
-        top.addWidget(self.btn_choose_source)
+        self.btn_settings.setIconSize(QSize(22, 22))
+        self.btn_settings.setFixedSize(34, 34)
+        self.btn_settings.setToolTip(i18n.tr("settings.title"))
+        self.btn_settings.setCursor(Qt.PointingHandCursor)
+        self.btn_settings.setStyleSheet(self._square_btn_css())
+        self.btn_settings.clicked.connect(self.open_settings_dialog)
+        top.addWidget(self.btn_settings)
 
-        # Estado/contador en vez de ruta
-        self.lbl_source = QLabel(self._source_status_text())
-        self.lbl_source.setToolTip("Carpeta donde Tibia guarda los JSON de Hunt Analyzer")
-        top.addWidget(self.lbl_source, 1)
+        # --- Botón Herramientas ---
+        self.btn_tools = QPushButton()
+        tools_png = asset_path("assets", "icons", "tools_panel.png")
+        if tools_png.exists():
+            self.btn_tools.setIcon(QIcon(str(tools_png)))
+        elif icon_fallback.exists():
+            self.btn_tools.setIcon(QIcon(str(icon_fallback)))
+        self.btn_tools.setIconSize(QSize(22, 22))
+        self.btn_tools.setFixedSize(34, 34)
+        self.btn_tools.setToolTip(i18n.tr("tools.title"))
+        self.btn_tools.setCursor(Qt.PointingHandCursor)
+        self.btn_tools.setStyleSheet(self._square_btn_css())
+        self.btn_tools.clicked.connect(self.open_tools_dialog)
+        top.addWidget(self.btn_tools)
 
-        self.btn_sync = QPushButton(i18n.tr("sync.now"))
-        self.btn_sync.setToolTip("Copia a la biblioteca interna los JSON nuevos desde la carpeta de Tibia")
+        # --- Botón Sincronizar ---
+        self.btn_sync = QPushButton()
+        sync_png = asset_path("assets", "icons", "sync_now.png")
+        if sync_png.exists():
+            self.btn_sync.setIcon(QIcon(str(sync_png)))
+        elif icon_fallback.exists():
+            self.btn_sync.setIcon(QIcon(str(icon_fallback)))
+        self.btn_sync.setIconSize(QSize(22, 22))
+        self.btn_sync.setFixedSize(34, 34)
+        self.btn_sync.setToolTip(i18n.tr("sync.now"))
+        self.btn_sync.setCursor(Qt.PointingHandCursor)
+        self.btn_sync.setStyleSheet(self._square_btn_css())
         self.btn_sync.clicked.connect(self.sync_now)
         top.addWidget(self.btn_sync)
 
-        # Ocultar biblioteca en la UI (se mantiene para no romper nada, pero invisible)
+        # Ocultar biblioteca
         self.lbl_library_title = QLabel(i18n.tr("library.label"))
         self.lbl_library_value = QLabel(f"{library_dir()}")
-        top.addWidget(self.lbl_library_title)
-        top.addWidget(self.lbl_library_value)
         self.lbl_library_title.setVisible(False)
         self.lbl_library_value.setVisible(False)
+        top.addWidget(self.lbl_library_title)
+        top.addWidget(self.lbl_library_value)
 
-        self.lbl_pending = QLabel(i18n.tr("pending.count", n=0))
-        top.addWidget(self.lbl_pending)
-
-        self.btn_manage_pending = QPushButton(i18n.tr("pending.manage"))
+        # Botón pendientes con contador
+        self.btn_manage_pending = QPushButton(i18n.tr("pending.manage_with_count", n=0))
         self.btn_manage_pending.clicked.connect(self.open_pending_dialog)
         top.addWidget(self.btn_manage_pending)
 
-        # Botón de Perfiles
+        # Botón perfiles
         self.btn_profiles = QPushButton(i18n.tr("profiles.open"))
         self.btn_profiles.clicked.connect(self.open_profiles_dialog)
         top.addWidget(self.btn_profiles)
@@ -103,63 +136,24 @@ class MainWindow(QMainWindow):
         root.addWidget(splitter, 1)
 
         # señales filtros
-        # Vocación y Modo -> primero recalcular opciones dependientes, luego refrescar tabla
         self.filters.cb_vocation.currentTextChanged.connect(self.on_filters_changed)
         self.filters.cb_mode.currentTextChanged.connect(self.on_filters_changed)
-        # Level solo refresca tabla
         self.filters.cb_level.currentTextChanged.connect(self.refresh_table)
         self.filters.chk_hilo.toggled.connect(self.on_hi_lo_toggled)
 
-        # ---- Presets de tamaño por modo (inicialización + aplicar) ----
-        self._ensure_window_sizes_defaults()
-        self._apply_window_size_for_mode(self.filters.show_hi_lo())
+    # ---- Ajustes / Tools / Sync ----
+    def open_settings_dialog(self):
+        dlg = SettingsDialog(
+            self,
+            cfg=self.config,
+            on_sync_done=self.load_data,
+            on_language_changed=self.retranslate_ui,
+        )
+        dlg.exec()
 
-    # Idioma
-    def on_language_changed(self):
-        lang = self.cb_language.currentData() or "es"
-        i18n.set_language(lang)
-        self.config["language"] = lang
-        config.save_config(self.config)
-        self.retranslate_ui()
-
-    def retranslate_ui(self):
-        self.setWindowTitle(i18n.tr("app.title"))
-        self.lbl_language.setText(i18n.tr("language"))
-
-        self.cb_language.blockSignals(True)
-        cur = i18n.get_language()
-        self.cb_language.clear()
-        self.cb_language.addItem(i18n.tr("language.es"), userData="es")
-        self.cb_language.addItem(i18n.tr("language.en"), userData="en")
-        self.cb_language.setCurrentIndex(0 if cur == "es" else 1)
-        self.cb_language.blockSignals(False)
-
-        self.btn_choose_source.setText(i18n.tr("source.choose"))
-        self.lbl_source.setText(self._source_status_text())
-        self.btn_sync.setText(i18n.tr("sync.now"))
-
-        self.lbl_library_title.setText(i18n.tr("library.label"))
-        self.btn_manage_pending.setText(i18n.tr("pending.manage"))
-        self.btn_profiles.setText(i18n.tr("profiles.open"))
-        self.lbl_pending.setText(i18n.tr("pending.count", n=len(find_pending(self.hunts)) if hasattr(self, "hunts") else 0))
-
-        self.filters.retranslate_ui()
-        self.table.retranslate_ui()
-
-        # Recalcular opciones inteligentes
-        self._refresh_mode_options()
-        self._refresh_level_options()
-        self.refresh_table()
-
-    # Sincronización
-    def choose_source(self):
-        folder = QFileDialog.getExistingDirectory(self, i18n.tr("source.choose"))
-        if folder:
-            self.source_folder = folder
-            self.lbl_source.setText(self._source_status_text())
-            self.config["source_folder"] = folder
-            config.save_config(self.config)
-            self.sync_now()
+    def open_tools_dialog(self):
+        dlg = ToolsDialog(self, self.config)
+        dlg.exec()
 
     def sync_now(self):
         if not self.source_folder:
@@ -170,30 +164,29 @@ class MainWindow(QMainWindow):
         if ignored:
             msg += i18n.tr("sync.msg.duplicates", ignored=ignored)
         QMessageBox.information(self, i18n.tr("sync.now"), msg)
-        self.lbl_source.setText(self._source_status_text())
         self.load_data()
 
-    # Carga / pendientes / filtros
+    # ---- Carga / pendientes / filtros ----
     def load_data(self):
         self.hunts = load_hunts_from_library()
         pend = find_pending(self.hunts)
-        self.lbl_pending.setText(i18n.tr("pending.count", n=len(pend)))
+        self.btn_manage_pending.setText(i18n.tr("pending.manage_with_count", n=len(pend)))
 
-        vocs  = sorted({h.vocation for h in self.hunts if h.has_all_meta and h.vocation})
+        vocs = sorted({h.vocation for h in self.hunts if h.has_all_meta and h.vocation})
         modes = sorted({h.mode for h in self.hunts if h.has_all_meta and h.mode})
-        lvls  = sorted({h.level_bucket for h in self.hunts if h.has_all_meta and h.level_bucket})
+        lvls = sorted({h.level_bucket for h in self.hunts if h.has_all_meta and h.level_bucket})
 
-        if not vocs:  vocs = ["Knight"]
-        if not modes: modes = ["Solo"]
+        if not vocs:
+            vocs = ["Knight"]
+        if not modes:
+            modes = ["Solo"]
 
         self.filters.set_available_vocations(vocs, default=self._default_voc)
         self.filters.set_available_modes(modes, default=self._default_mode)
         self.filters.set_available_levels(lvls)
 
-        # Ajustes inteligentes iniciales
         self._refresh_mode_options()
         self._refresh_level_options()
-
         self.refresh_table()
 
     def open_pending_dialog(self):
@@ -211,19 +204,18 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def on_hi_lo_toggled(self, checked: bool):
-        # Guardar tamaño del modo anterior antes de cambiar
-        prev_mode_is_hilo = not checked
-        self._save_current_window_size_for_mode(prev_mode_is_hilo)
+        # guarda tamaño anterior del modo que dejamos
+        ui_prefs.save_size(self, "main_window_hilo" if not checked else "main_window_basic")
+        # aplica tamaño del modo activo
+        if checked:
+            ui_prefs.load_size(self, "main_window_hilo", default=(1320, 760))
+        else:
+            ui_prefs.load_size(self, "main_window_basic", default=(1120, 720))
 
-        # Cambiar tabla y refrescar
         self.table.set_show_hi_lo(checked)
         self.refresh_table()
 
-        # Aplicar tamaño del modo nuevo
-        self._apply_window_size_for_mode(checked)
-
     def on_filters_changed(self):
-        # Recalcular modos (por vocación) y niveles (por vocación+modo)
         self._refresh_mode_options()
         self._refresh_level_options()
         self.refresh_table()
@@ -239,33 +231,36 @@ class MainWindow(QMainWindow):
         rows = aggregate_by_zone(self.hunts, vocation=voc, mode=mode, level_filter=level)
         self.table.set_rows(rows)
 
-    # -----------------------
-    # Helpers: filtros inteligentes + estado origen
-    # -----------------------
-    def _source_status_text(self) -> str:
-        folder = self.source_folder
-        if not folder or not os.path.isdir(folder):
-            return "Carpeta no seleccionada"
-        # Contador NO recursivo para que coincida con import_from_source()
-        return f"JSON encontrados: {self._count_json_recursive(folder)}"
+    def retranslate_ui(self):
+        self.setWindowTitle(i18n.tr("app.title"))
 
-    @staticmethod
-    def _count_json_recursive(folder: str) -> int:
-        """
-        Cuenta SOLO los .json directamente dentro de 'folder' (NO recursivo),
-        para que el contador refleje exactamente lo que importará import_from_source().
-        """
-        if not folder or not os.path.isdir(folder):
-            return 0
-        try:
-            return sum(
-                1
-                for entry in os.scandir(folder)
-                if entry.is_file() and entry.name.lower().endswith(".json")
-            )
-        except Exception:
-            return 0
+        # Tooltips
+        self.btn_settings.setToolTip(i18n.tr("settings.title"))
+        self.btn_sync.setToolTip(i18n.tr("sync.now"))
 
+        # Botón "Gestionar pendientes: X"
+        count = len(find_pending(self.hunts)) if hasattr(self, "hunts") else 0
+        self.btn_manage_pending.setText(f"{i18n.tr('pending.manage')}: {count}")
+
+        # Perfiles
+        self.btn_profiles.setText(i18n.tr("profiles.open"))
+
+        # Retraducir sub-UIs
+        if hasattr(self, "filters"):
+            self.filters.retranslate_ui()
+        if hasattr(self, "table"):
+            self.table.retranslate_ui()
+
+        self.refresh_table()
+
+    # ---- Guardar tamaño al cerrar ----
+    def closeEvent(self, event):
+        # Guardamos el tamaño del modo actual (basic/hilo)
+        ui_prefs.save_size(self, "main_window_hilo" if self.filters.show_hi_lo() else "main_window_basic")
+        # Dejamos que el mixin persista también su clave 'main_window_last'
+        super().closeEvent(event)
+
+    # ---- Helpers ----
     def _refresh_level_options(self):
         if not hasattr(self, "hunts") or not self.hunts:
             self.filters.set_available_levels([])
@@ -303,53 +298,21 @@ class MainWindow(QMainWindow):
         modes = sorted({h.mode for h in self.hunts if matches(h)})
         self.filters.set_available_modes(modes)
 
-    # -----------------------
-    # Helpers: tamaños por modo + persistencia
-    # -----------------------
-    def _ensure_window_sizes_defaults(self):
-        """
-        Estructura en config:
-        self.config["window_sizes"] = {
-            "basic": [1120, 720],
-            "hilo":  [1320, 760]
-        }
-        """
-        ws = self.config.get("window_sizes")
-        if not isinstance(ws, dict):
-            ws = {}
-        if "basic" not in ws or not self._valid_size(ws.get("basic")):
-            ws["basic"] = [1120, 720]
-        if "hilo" not in ws or not self._valid_size(ws.get("hilo")):
-            ws["hilo"] = [1320, 760]
-        self.config["window_sizes"] = ws
-        config.save_config(self.config)
-
     @staticmethod
-    def _valid_size(val):
-        try:
-            return isinstance(val, (list, tuple)) and len(val) == 2 and int(val[0]) > 0 and int(val[1]) > 0
-        except Exception:
-            return False
-
-    def _apply_window_size_for_mode(self, hilo: bool):
-        ws = self.config.get("window_sizes", {})
-        key = "hilo" if hilo else "basic"
-        size = ws.get(key, [1120, 720] if not hilo else [1320, 760])
-        try:
-            w, h = int(size[0]), int(size[1])
-        except Exception:
-            w, h = (1320, 760) if hilo else (1120, 720)
-        self.resize(w, h)
-
-    def _save_current_window_size_for_mode(self, hilo: bool):
-        ws = self.config.get("window_sizes") or {}
-        key = "hilo" if hilo else "basic"
-        ws[key] = [self.width(), self.height()]
-        self.config["window_sizes"] = ws
-        config.save_config(self.config)
-
-    # Guardar al cerrar
-    def closeEvent(self, event):
-        # Guarda el tamaño del modo actual
-        self._save_current_window_size_for_mode(self.filters.show_hi_lo())
-        super().closeEvent(event)
+    def _square_btn_css() -> str:
+        return """
+            QPushButton {
+                border: 1px solid #3a3a3a;
+                border-radius: 6px;
+                background-color: #242424;
+                padding: 0px;
+            }
+            QPushButton:hover {
+                background-color: #2e2e2e;
+                border-color: #565656;
+            }
+            QPushButton:pressed {
+                background-color: #1e1e1e;
+                border-color: #6a6a6a;
+            }
+        """

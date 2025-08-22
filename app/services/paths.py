@@ -49,3 +49,9 @@ def library_dir() -> str:
         _LIB_DIR_CACHE = _user_data_root() / "json"
         _LIB_DIR_CACHE.mkdir(parents=True, exist_ok=True)
     return str(_LIB_DIR_CACHE)
+
+def library_manifest_path() -> str:
+    """
+    Ruta absoluta al MANIFEST.json de la biblioteca (dedupe por hash) en AppData.
+    """
+    return str(_user_data_root() / "library_manifest.json")

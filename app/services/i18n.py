@@ -7,23 +7,54 @@ _STRINGS_ES: Dict[str, str] = {
     "language": "Idioma",
     "language.es": "Español",
     "language.en": "English",
-    "source.choose": "Elegir carpeta origen (Tibia)…",
+    "source.choose": "Elegir carpeta origen (Tibia)",
     "source.label.empty": "Origen: (no seleccionado)",
     "sync.now": "Sincronizar ahora",
     "library.label": "Biblioteca:",
     "pending.count": "Pendientes: {n}",
-    "pending.manage": "Gestionar pendientes…",
-    "profiles.open": "Perfiles…",
+    "pending.manage": "Gestionar pendientes",
+    "profiles.open": "Perfiles",
     "sync.msg.need_source": "Primero selecciona la carpeta de origen (Tibia).",
     "sync.msg.result": "Copiados: {copied}",
     "sync.msg.duplicates": " | Duplicados ignorados: {ignored}",
     "pending.none": "No hay archivos pendientes.",
+    "pending.manage_with_count": "Gestionar pendientes: {n}",
 
     # FiltersPanel
     "filters.vocation": "Vocación",
     "filters.mode": "Modo",
     "filters.level": "Nivel",
     "filters.hilo": "High/Low",
+    
+    # ToolsPanel
+    "tools.section.main": "Herramientas",
+    "tools.bestiary": "Bestiary",
+    "tools.loot_split": "Loot Split",
+    "tools.title": "Herramientas",
+    "tools.header": "Herramientas",
+    "tools.dataset.download": "Descargar dataset (GitHub)",
+    "tools.dataset.err": "Error al descargar:",
+    "tools.dataset.result": "Descarga completada.\nCopiados: {copied}\nIdénticos ya existentes: {identical}\nErrores: {errors}",
+    "tools.stats.open": "Estadísticas",
+    "tools.hint": "Descarga los JSON verificados y consulta estadísticas básicas.",
+    
+
+    # Tools / Stats dialog
+    "tools.stats.title": "Estadísticas",
+    "tools.stats.total": "Total",
+    "tools.stats.vocation": "Vocación",
+    "tools.stats.mode": "Modo",
+    "tools.stats.label.total": "Total",
+
+    "tools.stats.voc.knight": "Knight",
+    "tools.stats.voc.paladin": "Paladin",
+    "tools.stats.voc.druid": "Druid",
+    "tools.stats.voc.sorcerer": "Sorcerer",
+    "tools.stats.voc.monk": "Monk",
+
+    "tools.stats.solo": "Solo",
+    "tools.stats.duo": "Duo",
+
 
     # ZonesTable (columnas)
     "zones.col.zone": "Zona",
@@ -38,7 +69,16 @@ _STRINGS_ES: Dict[str, str] = {
     "zones.col.raw_h.max": "Raw/h Máx",
     "zones.col.balance_h.min": "Bal/h Mín",
     "zones.col.balance_h.max": "Bal/h Máx",
-
+    
+    # Settings panel
+    "settings.title": "Ajustes",
+    "settings.section.language": "Idioma",
+    "settings.section.source": "Origen de JSON de Tibia",
+    "settings.status": "Estado:",
+    "settings.source.none": "Carpeta no seleccionada",
+    "settings.source.count": "JSON encontrados: {n}",
+    "settings.btn": "Ajustes",   
+     
     # PendingDialog (UI)
     "pending.title": "Pendientes de metadatos",
     "pending.info":
@@ -46,8 +86,8 @@ _STRINGS_ES: Dict[str, str] = {
         "Consejo: si la hunt es Duo, puedes calcular el Balance Real o marcar 'Ignorar Balance'.",
     "pending.profile": "Perfil:",
     "pending.load_profile_all": "Cargar perfil en todos",
-    "pending.view_monsters": "Ver Monsters…",
-    "pending.calc_balance": "Calcular balance…",
+    "pending.view_monsters": "Ver Monsters",
+    "pending.calc_balance": "Calcular balance",
     "pending.save": "Guardar cambios",
     "pending.close": "Cerrar",
 
@@ -119,24 +159,54 @@ _STRINGS_EN: Dict[str, str] = {
     "language": "Language",
     "language.es": "Spanish",
     "language.en": "English",
-    "source.choose": "Choose source folder (Tibia)…",
+    "source.choose": "Choose source folder (Tibia)",
     "source.label.empty": "Source: (not selected)",
     "sync.now": "Sync now",
     "library.label": "Library:",
     "pending.count": "Pending: {n}",
-    "pending.manage": "Manage pending…",
-    "profiles.open": "Profiles…",
+    "pending.manage": "Manage pending",
+    "profiles.open": "Profiles",
     "sync.msg.need_source": "Please select the source folder (Tibia) first.",
     "sync.msg.result": "Copied: {copied}",
     "sync.msg.duplicates": " | Duplicates ignored: {ignored}",
     "pending.none": "No pending files.",
+    "pending.manage_with_count": "Manage pending: {n}",
 
     # FiltersPanel
     "filters.vocation": "Vocation",
     "filters.mode": "Mode",
     "filters.level": "Level",
     "filters.hilo": "High/Low",
+    
+    # ToolsPanel
+    "tools.section.main": "Tools",
+    "tools.bestiary": "Bestiary",
+    "tools.loot_split": "Loot Split",
+    "tools.title": "Tools",
+    "tools.header": "Tools",
+    "tools.dataset.download": "Download dataset (GitHub)",
+    "tools.dataset.err": "Download error:",
+    "tools.dataset.result": "Download completed.\nCopied: {copied}\nAlready identical: {identical}\nErrors: {errors}",
+    "tools.stats.open": "Statistics",
+    "tools.hint": "Download verified JSON files and check basic statistics.",
 
+    # Tools / Stats dialog
+    "tools.stats.title": "Statistics",
+    "tools.stats.total": "Total",
+    "tools.stats.vocation": "Vocation",
+    "tools.stats.mode": "Mode",
+    "tools.stats.label.total": "Total",
+
+    "tools.stats.voc.knight": "Knight",
+    "tools.stats.voc.paladin": "Paladin",
+    "tools.stats.voc.druid": "Druid",
+    "tools.stats.voc.sorcerer": "Sorcerer",
+    "tools.stats.voc.monk": "Monk",
+
+    "tools.stats.solo": "Solo",
+    "tools.stats.duo": "Duo",
+
+    
     # ZonesTable (columns)
     "zones.col.zone": "Zone",
     "zones.col.hunts": "Hunts",
@@ -150,7 +220,16 @@ _STRINGS_EN: Dict[str, str] = {
     "zones.col.raw_h.max": "Raw/h Max",
     "zones.col.balance_h.min": "Bal/h Min",
     "zones.col.balance_h.max": "Bal/h Max",
-
+    
+    # Settings panel
+    "settings.title": "Settings",
+    "settings.section.language": "Language",
+    "settings.section.source": "Tibia JSON source",
+    "settings.status": "Status:",
+    "settings.source.none": "Folder not selected",
+    "settings.source.count": "JSON found: {n}",
+    "settings.btn": "Settings",
+    
     # PendingDialog (UI)
     "pending.title": "Pending metadata",
     "pending.info":

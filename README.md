@@ -43,7 +43,7 @@ Pasos recomendados si aparece SmartScreen:
 ### 🔧 Compilación manual
 Si quieres generar tu propio `.exe`:  
 ```powershell
-pyinstaller --onefile --noconsole --icon=assets/icon.ico --name "TibiaAnalyzer" --paths=. --add-data "assets;assets" --add-data "app/ui;app/ui" app/main.py
+py -m PyInstaller --noconfirm --onefile --windowed --icon="assets/icons/icon.ico" --name="TibiaAnalyzer" --add-data "assets;assets" app/main.py
 ```
 
 ### 🤝 Contribuciones
@@ -90,7 +90,7 @@ If SmartScreen appears:
 ### 🔧 Manual build
 If you want to create your own `.exe`:  
 ```powershell
-pyinstaller --onefile --noconsole --icon=assets/icon.ico --name "TibiaAnalyzer" --paths=. --add-data "assets;assets" --add-data "app/ui;app/ui" app/main.py
+py -m PyInstaller --noconfirm --onefile --windowed --icon="assets/icons/icon.ico" --name="TibiaAnalyzer" --add-data "assets;assets" app/main.py
 ```
 
 ### 🤝 Contributing

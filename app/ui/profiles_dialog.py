@@ -1,115 +1,117 @@
+from __future__ import annotations
+
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem,
-    QLabel, QLineEdit, QComboBox, QPushButton, QMessageBox
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QComboBox,
+    QPushButton, QListWidget, QListWidgetItem, QMessageBox
 )
 from PySide6.QtCore import Qt
-from app.data.schema import Vocation
-from app.data.normalizer import LEVEL_BUCKETS
-from app.services import profiles
-from app.services import i18n
 
-class ProfilesDialog(QDialog):
+from app.services import i18n, profiles as profiles_service, config, ui_prefs
+
+
+class ProfilesDialog(ui_prefs.PersistentSizeMixin, QDialog):
+    """Gestión de perfiles (personajes). Usa PersistentSizeMixin."""
     def __init__(self, parent=None):
         super().__init__(parent)
+        cfg = config.load_config()
+        self.init_persistent_size(cfg, key="profiles_dialog", default=(520, 420))
+
         self.setWindowTitle(i18n.tr("profiles.title"))
-        self.resize(520, 420)
 
-        layout = QVBoxLayout(self)
+        root = QVBoxLayout(self)
 
-        top = QHBoxLayout()
         self.list = QListWidget()
-        self.list.itemSelectionChanged.connect(self._on_select)
-        top.addWidget(self.list, 1)
+        root.addWidget(self.list)
 
+        # Campos
         form = QVBoxLayout()
-        self.lbl_name = QLabel(i18n.tr("profiles.name"))
+        row_name = QHBoxLayout()
+        row_name.addWidget(QLabel(i18n.tr("profiles.name")))
         self.ed_name = QLineEdit()
-        form.addWidget(self.lbl_name)
-        form.addWidget(self.ed_name)
+        row_name.addWidget(self.ed_name)
+        form.addLayout(row_name)
 
-        self.lbl_voc = QLabel(i18n.tr("profiles.vocation"))
-        self.cb_vocation = QComboBox()
-        self.cb_vocation.addItems([v.value for v in Vocation])
-        form.addWidget(self.lbl_voc)
-        form.addWidget(self.cb_vocation)
+        row_voc = QHBoxLayout()
+        row_voc.addWidget(QLabel(i18n.tr("profiles.vocation")))
+        self.cb_voc = QComboBox()
+        self.cb_voc.addItems(["", "Knight", "Paladin", "Druid", "Sorcerer", "Monk"])
+        row_voc.addWidget(self.cb_voc)
+        form.addLayout(row_voc)
 
-        self.lbl_level = QLabel(i18n.tr("profiles.level"))
-        self.cb_level = QComboBox()
-        self.cb_level.addItems(LEVEL_BUCKETS)
-        form.addWidget(self.lbl_level)
-        form.addWidget(self.cb_level)
+        row_lvl = QHBoxLayout()
+        row_lvl.addWidget(QLabel(i18n.tr("profiles.level")))
+        self.ed_level = QLineEdit()
+        row_lvl.addWidget(self.ed_level)
+        form.addLayout(row_lvl)
+        root.addLayout(form)
 
+        # Botonera
         btns = QHBoxLayout()
         self.btn_new = QPushButton(i18n.tr("profiles.new"))
         self.btn_save = QPushButton(i18n.tr("profiles.save"))
-        self.btn_delete = QPushButton(i18n.tr("profiles.delete"))
-        self.btn_new.clicked.connect(self._new)
-        self.btn_save.clicked.connect(self._save)
-        self.btn_delete.clicked.connect(self._delete)
+        self.btn_del = QPushButton(i18n.tr("profiles.delete"))
+        btns.addStretch(1)
         btns.addWidget(self.btn_new)
         btns.addWidget(self.btn_save)
-        btns.addWidget(self.btn_delete)
-        form.addStretch(1)
-        form.addLayout(btns)
+        btns.addWidget(self.btn_del)
+        root.addLayout(btns)
 
-        top.addLayout(form, 1)
-        layout.addLayout(top)
+        # Signals
+        self.list.currentItemChanged.connect(self._on_select)
+        self.btn_new.clicked.connect(self._on_new)
+        self.btn_save.clicked.connect(self._on_save)
+        self.btn_del.clicked.connect(self._on_delete)
 
         self._reload_list()
 
+    # --- lógica perfiles ---
     def _reload_list(self):
         self.list.clear()
-        for p in profiles.list_profiles():
-            item = QListWidgetItem(p.get("name", ""))
-            item.setData(Qt.UserRole, p)
-            self.list.addItem(item)
+        for p in profiles_service.list_profiles():
+            self.list.addItem(QListWidgetItem(p.get("name", "")))
 
-    def _on_select(self):
-        items = self.list.selectedItems()
-        if not items:
+    def _on_select(self, cur, _prev):
+        if not cur:
             self.ed_name.clear()
-            self.cb_vocation.setCurrentIndex(0)
-            self.cb_level.setCurrentIndex(0)
+            self.cb_voc.setCurrentIndex(0)
+            self.ed_level.clear()
             return
-        p = items[0].data(Qt.UserRole)
-        self.ed_name.setText(p.get("name", ""))
-        self.cb_vocation.setCurrentText(p.get("vocation", "Knight"))
-        self.cb_level.setCurrentText(p.get("level", LEVEL_BUCKETS[0]))
+        p = profiles_service.get_profile(cur.text())
+        if p:
+            self.ed_name.setText(p.get("name", ""))
+            self.cb_voc.setCurrentText(p.get("vocation", ""))
+            self.ed_level.setText(str(p.get("level", "")))
 
-    def _new(self):
+    def _on_new(self):
         self.list.clearSelection()
         self.ed_name.clear()
-        self.cb_vocation.setCurrentIndex(0)
-        self.cb_level.setCurrentIndex(0)
+        self.cb_voc.setCurrentIndex(0)
+        self.ed_level.clear()
 
-    def _save(self):
+    def _on_save(self):
         name = self.ed_name.text().strip()
         if not name:
             QMessageBox.warning(self, i18n.tr("profiles.title"), i18n.tr("profiles.msg.name_required"))
             return
-        profiles.upsert_profile(
-            name=name,
-            vocation=self.cb_vocation.currentText(),
-            level=self.cb_level.currentText()
-        )
+        data = {"name": name, "vocation": self.cb_voc.currentText().strip(), "level": self.ed_level.text().strip()}
+        profiles_service.save_profile(data)
         self._reload_list()
-        matches = self.list.findItems(name, Qt.MatchExactly)
-        if matches:
-            self.list.setCurrentItem(matches[0])
+        items = self.list.findItems(name, Qt.MatchExactly)
+        if items:
+            self.list.setCurrentItem(items[0])
 
-    def _delete(self):
-        items = self.list.selectedItems()
-        if not items:
+    def _on_delete(self):
+        it = self.list.currentItem()
+        if not it:
             QMessageBox.information(self, i18n.tr("profiles.title"), i18n.tr("profiles.msg.select_first"))
             return
-        name = items[0].text()
+        name = it.text()
         ok = QMessageBox.question(
-            self,
-            i18n.tr("profiles.msg.delete.title"),
+            self, i18n.tr("profiles.title"),
             i18n.tr("profiles.msg.delete.body", name=name),
             QMessageBox.Yes | QMessageBox.No, QMessageBox.No
         )
         if ok == QMessageBox.Yes:
-            profiles.delete_profile(name)
+            profiles_service.delete_profile(name)
             self._reload_list()
-            self._new()
+            self._on_new()

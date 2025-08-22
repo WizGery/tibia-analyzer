@@ -19,7 +19,8 @@ from app.services.pending_service import (
 from app.data.writer import write_meta_to_json
 from app.services import profiles as profiles_service
 from app.services import i18n
-from app.services import config  # para persistir tamaño del diálogo
+from app.services import config
+from app.services import ui_prefs  # ← mixin para persistir tamaño
 
 
 # ---------- helpers de centrado ----------
@@ -168,19 +169,14 @@ COLS_KEYS = [
     "pending.col.ignore_duo", "pending.col.issues"
 ]
 
-class PendingDialog(QDialog):
+class PendingDialog(ui_prefs.PersistentSizeMixin, QDialog):
     def __init__(self, parent: QWidget | None, pending_rows: List[Dict], existing_zones: List[str]):
         super().__init__(parent)
         self.setWindowTitle(i18n.tr("pending.title"))
 
-        # ---- Restaurar tamaño guardado (persistencia real) ----
+        # ---- Persistencia de tamaño con mixin ----
         cfg = config.load_config() if hasattr(config, "load_config") else {}
-        ws = cfg.get("window_sizes", {})
-        sz = ws.get("pending")
-        if self._valid_size(sz):
-            self.resize(int(sz[0]), int(sz[1]))
-        else:
-            self.resize(1160, 640)  # por defecto
+        self.init_persistent_size(cfg, key="pending_dialog", default=(1160, 640))
 
         self.pending_rows = pending_rows
         self.existing_zones = sorted({z for z in existing_zones if z})
@@ -296,7 +292,6 @@ class PendingDialog(QDialog):
         self.btn_save.clicked.connect(self.save_all)
         self.btn_close = QPushButton(i18n.tr("pending.close"))
         self.btn_close.clicked.connect(self.reject)
-
         btn_row.addStretch(1)
         btn_row.addWidget(self.btn_save)
         btn_row.addWidget(self.btn_close)
@@ -370,21 +365,6 @@ class PendingDialog(QDialog):
                 cb_duo.setCurrentIndex(-1)
             cb_duo.setEnabled(True)
         cb_duo.blockSignals(False)
-        
-    def accept(self):
-        # Guardar tamaño también cuando se cierra con "Guardar cambios"
-        try:
-            self._save_pending_size()
-        finally:
-            super().accept()
-
-    def reject(self):
-        # Guardar tamaño también cuando se cierra con "Cerrar"
-        try:
-            self._save_pending_size()
-        finally:
-            super().reject()
-
 
     @Slot()
     def _on_mode_changed(self, row_index: int):
@@ -511,26 +491,4 @@ class PendingDialog(QDialog):
             QMessageBox.information(self, i18n.tr("pending.save"), i18n.tr("pending.msg.saved_ok", n=ok_count))
         self.accept()
 
-    # -------- persistencia tamaño del diálogo --------
-    @staticmethod
-    def _valid_size(v) -> bool:
-        try:
-            return isinstance(v, (list, tuple)) and len(v) == 2 and int(v[0]) > 0 and int(v[1]) > 0
-        except Exception:
-            return False
 
-    def _save_pending_size(self):
-        """Guarda el tamaño actual en config['window_sizes']['pending']."""
-        try:
-            cfg = config.load_config() if hasattr(config, "load_config") else {}
-            ws = cfg.get("window_sizes", {})
-            ws["pending"] = [self.width(), self.height()]
-            cfg["window_sizes"] = ws
-            config.save_config(cfg)
-        except Exception:
-            pass
-
-    def closeEvent(self, event):
-        # Guardar el tamaño siempre que se cierre el diálogo (Guardar, Cerrar o X)
-        self._save_pending_size()
-        super().closeEvent(event)
